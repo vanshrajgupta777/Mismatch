@@ -78,9 +78,10 @@ const startServer = async () => {
     initCronJobs();
 
     // 4. Start HTTP Server
-    server.listen(PORT, () => {
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`=========================================`);
       console.log(`  Mismatch Server running on port ${PORT}`);
+      console.log(`  Listening on 0.0.0.0:${PORT}`);
       console.log(`  Client URL: ${allowedOrigin}`);
       console.log(`=========================================`);
     });

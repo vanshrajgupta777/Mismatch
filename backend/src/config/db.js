@@ -8,12 +8,18 @@ export const connectDB = async () => {
 
   if (uri && uri.trim() !== '' && uri !== 'memory') {
     try {
-      console.log(`Connecting to MongoDB at: ${uri}`);
-      await mongoose.connect(uri);
+      const maskedUri = uri.replace(/:([^@]+)@/, ':****@');
+      console.log(`Connecting to MongoDB at: ${maskedUri}`);
+      await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 10000,
+      });
       console.log('MongoDB connected successfully.');
       return;
     } catch (err) {
-      console.warn('Could not connect to configured MONGO_URI. Falling back to in-memory MongoDB...', err.message);
+      console.warn('Could not connect to configured MONGO_URI:', err.message);
+      if (process.env.NODE_ENV === 'production') {
+        console.error('Note: If running on Render, ensure MongoDB Atlas Network Access allows 0.0.0.0/0 (anywhere).');
+      }
     }
   }
 
