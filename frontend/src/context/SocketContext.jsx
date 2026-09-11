@@ -19,7 +19,11 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    const newSocket = io({
+    const socketBase = import.meta.env.VITE_API_URL
+      ? import.meta.env.VITE_API_URL.replace(/\/api$/, '')
+      : undefined;
+
+    const newSocket = io(socketBase, {
       auth: { token },
       transports: ['websocket', 'polling'],
     });
