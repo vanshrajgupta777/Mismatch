@@ -19,8 +19,8 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    const socketBase = import.meta.env.VITE_API_URL
-      ? import.meta.env.VITE_API_URL.replace(/\/api$/, '')
+    let socketBase = import.meta.env.VITE_API_URL
+      ? import.meta.env.VITE_API_URL.trim().replace(/\/+$/, '').replace(/\/api$/, '')
       : undefined;
 
     const newSocket = io(socketBase, {

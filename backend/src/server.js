@@ -39,6 +39,19 @@ app.use(
 app.use(express.json());
 
 // Routes
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'Mismatch Dating App API',
+    version: '1.0.0',
+    endpoints: {
+      health: '/api/health',
+      rooms: '/api/rooms',
+      demoUsers: '/api/auth/demo-users',
+    },
+  });
+});
+
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
